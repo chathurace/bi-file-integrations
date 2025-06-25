@@ -3,9 +3,9 @@ import ballerina/data.csv;
 import ballerina/ftp;
 import ballerina/http;
 import ballerina/io;
+import ballerina/lang.regexp;
 import ballerina/log;
 import ballerina/sql;
-import ballerinax/mysql;
 
 listener http:Listener httpDefaultListener = http:getDefaultListener();
 
@@ -20,6 +20,7 @@ service ftp:Service on dataOneL {
     remote function onFileChange(ftp:WatchEvent & readonly event, ftp:Caller caller) returns error? {
         log:printInfo("File change event received: " + event.toJsonString());
         foreach ftp:FileInfo fileInfo in event.addedFiles {
+            string[] fileNameParts = regexp:split(re `_`, fileInfo.name);
             stream<byte[] & readonly, io:Error?> contentStream = check ftpClient->get(fileInfo.pathDecoded);
             byte[] allBytes = [];
             check contentStream.forEach(function(byte[] & readonly chunk) {
@@ -36,7 +37,7 @@ service ftp:Service on dataOneL {
             foreach InventoryEntry ientry in entry {
                 log:printInfo("Product ID: " + ientry.pid + ", Quantity: " + ientry.quantity.toString());
                 sql:ExecutionResult updateResult = check inventoryDB->execute(`INSERT INTO shop_inventory (shopId, pid, quantity)
-VALUES ('${ientry.pid}', '${ientry.pid}', ${ientry.quantity})
+VALUES (${fileNameParts[0]}, ${ientry.pid}, ${ientry.quantity})
 ON DUPLICATE KEY UPDATE quantity = ${ientry.quantity};`);
             }
 
