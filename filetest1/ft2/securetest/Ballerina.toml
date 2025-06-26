@@ -1,0 +1,4 @@
+[package]
+org = "chathura"
+name = "securetest"
+version = "0.1.0"
