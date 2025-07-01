@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  ftp:
+    image: fauria/vsftpd
+    platform: linux/amd64
+    container_name: ftp-server
+    restart: always
+    ports:
+      - "2120:21"
+      - "21100-21110:21100-21110"  # passive mode ports
+    environment:
+      - FTP_USER=testuser
+      - FTP_PASS=testpass
+      - PASV_ENABLE=YES
+      - PASV_MIN_PORT=21100
+      - PASV_MAX_PORT=21110
+      - PASV_ADDRESS=127.0.0.1  # replace with your public IP if needed
+    volumes:
+      - ftpdata:/home/vsftpd
+
+volumes:
+  ftpdata:
