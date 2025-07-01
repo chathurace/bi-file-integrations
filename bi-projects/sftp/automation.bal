@@ -2,12 +2,9 @@
 // import ballerina/log;
 // import ballerina/ftp;
 
-import ballerina/io;
-import ballerina/log;
-
 public function main() returns error? {
-    stream<byte[] & readonly, io:Error?> fileData = check ftpClient->get("/upload/f3.csv");
-    log:printInfo("Fetched file date.");
+    // stream<byte[] & readonly, io:Error?> fileData = check ftpClient->get("/upload/f3.csv");
+    // log:printInfo("Fetched file date.");
     //     final ftp:Client|ftp:Error ftpClient = new ({
     //     protocol: "sftp",
     //     host: "localhost",

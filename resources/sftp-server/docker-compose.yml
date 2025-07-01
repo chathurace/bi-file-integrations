@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  sftp:
+    image: atmoz/sftp
+    platform: linux/amd64
+    ports:
+      - "2222:22"
+    volumes:
+      - /Users/chathura/work/projects/bi/samples/fs/keys/rsa2/id_rsa.pub:/home/foo/.ssh/keys/id_rsa.pub:ro
+    command: foo:pass:1000:1000:upload

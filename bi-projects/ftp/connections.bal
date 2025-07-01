@@ -13,4 +13,5 @@ final ftp:Client ftpClient = check new ({
         }
     }
 });
+
 final mysql:Client inventoryDB = check new ("localhost", dbUser, demoPass, "demo1", 3306);

@@ -9,7 +9,7 @@ import ballerina/sql;
 
 listener http:Listener httpDefaultListener = http:getDefaultListener();
 
-listener ftp:Listener dataOneL = new (protocol = ftp:FTP, path = "/test", port = 2120, auth = {
+listener ftp:Listener dataOneL = new (protocol = ftp:FTP, path = "/upload", port = 2120, auth = {
     credentials: {
         username: "testuser",
         password: "testpass"
